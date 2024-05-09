@@ -36,5 +36,7 @@ data class Sismo (
             Sismo("s9", "Talca - Chile", 5.8),
             Sismo("s10", "Concepción - Chile", 4.0)
         )
+
+        val dataEmpty = mutableListOf<Sismo>()
     }
 }
