@@ -1,10 +1,13 @@
 package com.example.sismocontrol.adapters
 
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 import com.example.sismocontrol.databinding.SismoItemBinding
 import com.example.sismocontrol.entities.Sismo
+
+private val TAG = SismoAdapter::class.java.simpleName
 
 class SismoAdapter : RecyclerView.Adapter <SismoAdapter.SismoViewHolder>(){
     /**
@@ -30,6 +33,8 @@ class SismoAdapter : RecyclerView.Adapter <SismoAdapter.SismoViewHolder>(){
      * @see .getItemViewType
      * @see .onBindViewHolder
      */
+
+    lateinit var onItemClickListener: (Sismo) -> Unit
 
     //Atributo de la clase
     var sismos = mutableListOf<Sismo>()
@@ -86,8 +91,19 @@ class SismoAdapter : RecyclerView.Adapter <SismoAdapter.SismoViewHolder>(){
     inner class SismoViewHolder(private var bindingItem: SismoItemBinding)
         : RecyclerView.ViewHolder(bindingItem.root){
         fun bind(sismo: Sismo){
-            bindingItem.magnitudTxt.text = sismo.magnitud.toString()
-            bindingItem.locacionTxt.text = sismo.lugar
+
+            with (sismo){
+                bindingItem.magnitudTxt.text = this.magnitud.toString()
+                bindingItem.locacionTxt.text = this.lugar
+            }
+
+            bindingItem.root.setOnClickListener {
+                if(::onItemClickListener.isInitialized)
+                    onItemClickListener(sismo)
+                else
+                    Log.e(TAG,"Listener not initialized")
+            }
+
         }
 
     }
